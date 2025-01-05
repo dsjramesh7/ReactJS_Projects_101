@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 const TaskInput = () => {
   const [inputValue, setInputValue] = useState("");
+
   const dispatch = useDispatch();
 
   const randomNumberGenerator = () => {
