@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import Button from "./UI/Button";
-import { deleteTask, editTask } from "../redux/taskSlice";
+import { deleteTask, editTask, toggleTaskCompletion } from "../redux/taskSlice";
 import { useState } from "react";
 
 const TaskList = () => {
   const allTodos = useSelector((state) => state.Todos);
-  // console.log("allTodos", allTodos);
+  console.log("allTodos", allTodos);
   const dispatch = useDispatch();
   // const [editInputValue, setEditInputValue] = useState("");
   const [editMode, setEditMode] = useState(null);
@@ -22,6 +22,11 @@ const TaskList = () => {
     dispatch(editTask({ taskId, taskName: updatedTaskName }));
     setEditMode(null);
   };
+
+  // for completeing task
+  const handleCheckBox = (taskId) => {
+    dispatch(toggleTaskCompletion(taskId));
+  };
   return (
     <>
       {allTodos && allTodos.length > 0 ? (
@@ -32,9 +37,13 @@ const TaskList = () => {
                 key={todo.id}
                 className="flex justify-between px-5 items-center"
               >
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  onChange={() => handleCheckBox(todo.id)}
+                  checked={todo.completed}
+                />
                 <div className="flex gap-2">
-                  <p>{todo.id}</p>
+                  {/* <p>{todo.id}</p> */}
                   {editMode === todo.id ? (
                     <input
                       type="text"
@@ -43,7 +52,13 @@ const TaskList = () => {
                       onChange={(e) => setUpdatedTaskName(e.target.value)}
                     />
                   ) : (
-                    <h2 className="text-red">{todo.taskName}</h2>
+                    <h2
+                      className={`font-semibold text-2xl ${
+                        todo.completed ? "line-through text-red-500" : ""
+                      }`}
+                    >
+                      {todo.taskName}
+                    </h2>
                   )}
                 </div>
                 <div className="flex gap-2">
