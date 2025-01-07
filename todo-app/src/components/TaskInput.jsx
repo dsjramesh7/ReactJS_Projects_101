@@ -26,12 +26,12 @@ const TaskInput = () => {
   };
 
   return (
-    <div className="flex gap-3 w-full justify-center">
+    <div className="flex gap-3 w-full justify-center items-center">
       <input
         type="text"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        className="border-2 border-yellow-500 w-4/5 px-4 py-2"
+        className="border-2 border-yellow-500 rounded-lg px-4 py-2 w-4/5 focus:outline-none focus:ring-2 focus:ring-yellow-400"
       />
       <Button onClick={handleAddTask} color="success">
         Add
