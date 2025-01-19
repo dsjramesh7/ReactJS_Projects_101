@@ -4,9 +4,9 @@ const Navbar = () => {
       <h1>MovieMania</h1>
       <div className="flex gap-4">
         <input type="text" className="border border-red-500 p-2 w-96" />
-        <button>Search</button>
+        <button className="bg-blue-500">Search</button>
       </div>
-      <button>sign in</button>
+      <button className="bg-red-500">sign in</button>
     </div>
   );
 };
