@@ -1,9 +1,11 @@
+import MainSection from "./components/MainSection";
 import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="">
       <Navbar />
+      <MainSection />
     </div>
   );
 };
