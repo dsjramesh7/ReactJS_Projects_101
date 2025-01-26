@@ -1,5 +1,14 @@
+import Card from "./components/Card";
+
 const App = () => {
-  return <div>App</div>;
+  return (
+    <>
+      <Card title={"Bunny"} />
+      <Card title={"dance"} />
+      <Card title={"sing"} />
+      <Card title={"swim"} />
+    </>
+  );
 };
 
 export default App;
