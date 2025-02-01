@@ -17,54 +17,53 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [movies, setMovies] = useState([]);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`,
-          API_OPTIONS
-        );
-        if (!response.ok) throw new Error("Failed to fetch movies");
-
-        const data = await response.json();
-        setMovies(data.results);
-      } catch (error) {
-        setErrorMessage(`Movies not fetched: ${error.message}`);
+  const fetchMovies = async () => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`,
+        API_OPTIONS
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
+      const data = await response.json();
+      setMovies(data.results);
+    } catch (error) {
+      setErrorMessage(`Failed to fetch movies: ${error.message}`);
+    }
+  };
 
+  useEffect(() => {
     fetchMovies();
   }, []);
 
   return (
-    <main>
-      <div className="pattern" />
-      <div className="wrapper">
-        <header>
-          <img src="hero.png" alt="movie-banner" />
-          <h1>
-            Find <span className="text-gradient">Movie</span> You&apos;ll Enjoy
-            Without the Hassle
-          </h1>
-          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        </header>
+    <main className="container mx-auto p-4">
+      <header className="text-center">
+        <img src="hero.png" alt="movie-banner" className="mx-auto mb-4" />
+        <h1 className="text-2xl font-bold">
+          Find <span className="text-gradient">Movies</span> You&apos;ll Enjoy
+          Without the Hassle
+        </h1>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      </header>
 
-        <section className="text-red-500">
-          {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage ? (
+        <p className="text-red-500 text-center mt-4">{errorMessage}</p>
+      ) : movies.length > 0 ? (
+        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+          {movies.map((movie) => (
+            <div
+              key={movie.id}
+              className="bg-gray-800 p-4 rounded-lg shadow-lg"
+            >
+              <h3 className="text-white font-semibold">{movie.title}</h3>
+            </div>
+          ))}
         </section>
-
-        <section>
-          {movies.length > 0 ? (
-            <ul>
-              {movies.map((movie) => (
-                <li key={movie.id}>{movie.title}</li>
-              ))}
-            </ul>
-          ) : (
-            !errorMessage && <p>Loading movies...</p>
-          )}
-        </section>
-      </div>
+      ) : (
+        <p className="text-center mt-4">Loading movies...</p>
+      )}
     </main>
   );
 };
