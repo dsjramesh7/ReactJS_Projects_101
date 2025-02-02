@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import { API_BASE_URL } from "../utils/Constants";
 import Loader from "./components/Loader";
 import MovieCard from "./components/MovieCard";
+import { useDebounce } from "react-use";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -19,6 +20,9 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [debounceSearchTerm, setDebounceSearchTerm] = useState("");
+
+  useDebounce(() => setDebounceSearchTerm(searchTerm), 500, [searchTerm]);
 
   const fetchMovies = async (query = "") => {
     setIsLoading(true);
@@ -42,8 +46,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchMovies(searchTerm);
-  }, [searchTerm]);
+    fetchMovies(debounceSearchTerm);
+  }, [debounceSearchTerm]);
 
   return (
     <main className="container mx-auto p-4">
